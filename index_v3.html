@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Etiqueta Clara AI — Decide saludable en menos de 2 minutos</title>
+  <style>
+    :root{
+      --bg:#0b1020; --muted:#9fb0ff; --text:#eef2ff;
+      --accent:#ffcc00; --accent2:#66e3ff; --ok:#48d597; --warn:#ffb020; --bad:#ff5d5d;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --max:1100px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:var(--font); background:radial-gradient(1000px 500px at 20% 0%, rgba(102,227,255,.12), transparent 55%),
+      radial-gradient(900px 500px at 80% 10%, rgba(255,204,0,.10), transparent 60%),
+      var(--bg); color:var(--text);}
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 20px 70px;}
+    header{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px 0 24px;}
+    .logo{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px}
+    .dot{width:14px; height:14px; border-radius:6px; background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 0 0 4px rgba(255,204,0,.12);}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10);}
+    .pill small{color:rgba(255,255,255,.75)}
+    .hero{display:grid; grid-template-columns: 1.1fr .9fr; gap:22px; align-items:stretch;}
+    @media (max-width: 920px){ .hero{grid-template-columns:1fr; } }
+    .card{background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.10); border-radius:var(--radius); box-shadow:var(--shadow);}
+    .heroLeft{padding:26px;}
+    h1{margin:0 0 10px; font-size:38px; line-height:1.06;}
+    .sub{color:rgba(238,242,255,.78); font-size:16px; line-height:1.45; margin:0 0 18px;}
+    .kv{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 18px;}
+    .kv .pill{background:rgba(255,255,255,.05)}
+    .ctaRow{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;}
+    .btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 16px; border-radius:12px; font-weight:700; border:1px solid rgba(255,255,255,.14); text-decoration:none;}
+    .btnPrimary{background:linear-gradient(135deg,var(--accent),#ffd44d); color:#1b1b1b; border-color:transparent;}
+    .btnGhost{background:rgba(255,255,255,.06);}
+    .note{margin-top:10px; color:rgba(238,242,255,.70); font-size:12px}
+    .heroRight{padding:18px; display:flex; flex-direction:column; gap:14px;}
+    .mock{padding:18px;}
+    .mockTop{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; color:rgba(238,242,255,.7); font-size:12px;}
+    .chips{display:flex; gap:8px; flex-wrap:wrap;}
+    .chip{padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10); font-size:12px;}
+    .signal{display:grid; grid-template-columns: 1fr; gap:10px;}
+    .signalBox{border-radius:14px; padding:12px 12px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.10);}
+    .sigHdr{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+    .badge{font-weight:800; font-size:12px; padding:6px 10px; border-radius:999px;}
+    .bOk{background:rgba(72,213,151,.18); color:#c9ffe8; border:1px solid rgba(72,213,151,.30);}
+    .bWarn{background:rgba(255,176,32,.18); color:#fff2d6; border:1px solid rgba(255,176,32,.30);}
+    .bBad{background:rgba(255,93,93,.18); color:#ffd5d5; border:1px solid rgba(255,93,93,.30);}
+    .sigTxt{margin:8px 0 0; color:rgba(238,242,255,.80); font-size:13px; line-height:1.35;}
+    .section{margin-top:26px; padding:22px;}
+    h2{margin:0 0 10px; font-size:22px;}
+    .grid3{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;}
+    @media (max-width: 920px){ .grid3{grid-template-columns:1fr;} }
+    .mini{padding:16px;}
+    .mini h3{margin:0 0 6px; font-size:16px;}
+    .mini p{margin:0; color:rgba(238,242,255,.75); font-size:13px; line-height:1.4;}
+    .catalog{display:grid; grid-template-columns: 1fr 1fr; gap:12px;}
+    @media (max-width: 920px){ .catalog{grid-template-columns:1fr;} }
+    .price{font-weight:900; color:var(--accent);}
+    ul{margin:10px 0 0 18px; color:rgba(238,242,255,.78); font-size:13px; line-height:1.45;}
+    .muted{color:rgba(238,242,255,.70); font-size:12px}
+    .hr{height:1px; background:rgba(255,255,255,.10); margin:14px 0;}
+    .footer{margin-top:26px; color:rgba(238,242,255,.65); font-size:12px;}
+    .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+         padding:2px 6px; border:1px solid rgba(255,255,255,.14); border-radius:8px; background:rgba(0,0,0,.25);}
+    .videoBox{
+      border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.12);
+      background:linear-gradient(135deg, rgba(102,227,255,.10), rgba(255,204,0,.10));
+      min-height:180px; position:relative;
+    }
+    .videoBox .label{
+      position:absolute; inset:auto 12px 12px 12px;
+      background:rgba(0,0,0,.45); padding:10px 12px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      font-size:12px; color:rgba(238,242,255,.85);
+    }
+    .pulse{
+      position:absolute; inset:0; background:radial-gradient(500px 200px at var(--x,30%) var(--y,40%), rgba(102,227,255,.20), transparent 60%);
+      animation:pulse 4.5s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%{opacity:.45; transform:scale(1);}
+      50%{opacity:.75; transform:scale(1.03);}
+      100%{opacity:.45; transform:scale(1);}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo"><span class="dot"></span> Etiqueta Clara AI</div>
+      <div class="pill"><small>Prototipo</small></div>
+    </header>
+
+    <section class="hero">
+      <div class="card heroLeft">
+        <h1>Decide saludable en menos de 2 minutos</h1>
+        <p class="sub">
+          Señales claras y personalizadas para comprar con confianza cuando hay prisa,
+          estrés y etiquetas confusas. Diseñado para micro‑momentos de compra (super/apps).
+        </p>
+
+        <div class="kv">
+          <div class="pill">⏱️ <small>Rápido</small> <b>&nbsp;≤2 min</b></div>
+          <div class="pill">🎯 <small>Según tus metas</small> <b>&nbsp;azúcar · proteína · energía</b></div>
+          <div class="pill">💸 <small>Cuida presupuesto</small> <b>&nbsp;swaps “mejor valor”</b></div>
+          <div class="pill">🛒 <small>En el punto de compra</small> <b>&nbsp;super · apps</b></div>
+        </div>
+
+        <div class="ctaRow">
+          <a class="btn btnPrimary" href="#cuestionario">Quiero opinar (cuestionario)</a>
+          <a class="btn btnGhost" href="#catalogo">Ver catálogo y precios</a>
+        </div>
+        <div class="note">
+          *Este es un pretotipo para validar interés. Algunas funciones pueden estar en “beta” o “próximamente”.
+        </div>
+      </div>
+
+      <div class="card heroRight">
+        <div class="videoBox" aria-label="Video de YouTube integrado">
+          <iframe width="100%" height="100%"
+            src="https://www.youtube.com/embed/xVrQt1JTOt0"
+            title="Video de demostración"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+            style="border:0; border-radius:20px; position:relative; z-index:1;">
+          </iframe>
+        </div>
+
+        <div class="card mock">
+          <div class="mockTop">
+            <span>Demo rápida (ejemplo)</span>
+            <span class="kbd">Tiempo: 00:42</span>
+          </div>
+          <div class="chips">
+            <span class="chip">Meta: menos azúcar</span>
+            <span class="chip">Presupuesto: medio</span>
+            <span class="chip">Canal: app del súper</span>
+          </div>
+          <div class="hr"></div>
+          <div class="signal">
+            <div class="signalBox">
+              <div class="sigHdr">
+                <b>Opción A — Cereal “Fit”</b>
+                <span class="badge bWarn">OK</span>
+              </div>
+              <p class="sigTxt">Buen sabor, pero alto en azúcar por porción. Si tu meta es “menos azúcar”, hay mejor alternativa.</p>
+            </div>
+            <div class="signalBox">
+              <div class="sigHdr">
+                <b>Opción B — Avena simple</b>
+                <span class="badge bOk">MEJOR</span>
+              </div>
+              <p class="sigTxt">Menos azúcar y más fibra. Mejor valor para tu meta y suele costar similar por porción.</p>
+            </div>
+            <div class="signalBox">
+              <div class="sigHdr">
+                <b>Opción C — Galletas</b>
+                <span class="badge bBad">EVITAR</span>
+              </div>
+              <p class="sigTxt">Alta en azúcar y baja saciedad. Mejor dejarla para ocasiones, no para diario.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section" id="como-funciona">
+      <h2>Cómo funciona (sin complicarte)</h2>
+      <div class="grid3">
+        <div class="card mini">
+          <h3>1) Eliges o escaneas</h3>
+          <p>Seleccionas un producto en la app del súper o lo escaneas en tienda.</p>
+        </div>
+        <div class="card mini">
+          <h3>2) Ves la señal</h3>
+          <p>“Mejor / OK / Evitar” con una razón en 2 líneas (sin tecnicismos).</p>
+        </div>
+        <div class="card mini">
+          <h3>3) Te damos un swap</h3>
+          <p>Alternativa disponible con mejor “valor salud/precio” y misma conveniencia.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section" id="catalogo">
+      <h2>Catálogo de productos/servicios (precios y entregas aproximadas)</h2>
+      <p class="muted">
+        Importante: rangos preliminares para validación. Confirma moneda, rangos y condiciones antes de publicar.
+      </p>
+
+      <div class="catalog">
+        <div class="card mini">
+          <h3>B2C — Plan Básico</h3>
+          <p class="price">Gratis (0)</p>
+          <ul>
+            <li>Señales simples (Mejor/OK/Evitar) en categorías seleccionadas</li>
+            <li>Explicación corta (2 líneas)</li>
+            <li>3 swaps sugeridos por semana</li>
+          </ul>
+          <div class="hr"></div>
+          <p class="muted"><b>Entrega:</b> acceso inmediato al registrarte (aprox. 1–2 min).</p>
+        </div>
+
+        <div class="card mini">
+          <h3>B2C — Plan Pro (Personalizado)</h3>
+          <p class="price">MXN $49–$149 / mes (aprox.)</p>
+          <ul>
+            <li>Personalización por metas (azúcar/proteína/energía)</li>
+            <li>Swaps ilimitados en categorías seleccionadas</li>
+            <li>Lista semanal “rápida” (rutina real)</li>
+          </ul>
+          <div class="hr"></div>
+          <p class="muted"><b>Entrega:</b> acceso inmediato tras pago (aprox. 1–2 min).</p>
+        </div>
+
+        <div class="card mini">
+          <h3>B2C — Plan Familia (Multiusuario)</h3>
+          <p class="price">MXN $129–$249 / mes (aprox.)</p>
+          <ul>
+            <li>Hasta 4 perfiles con metas distintas</li>
+            <li>Swaps y listas por perfil</li>
+            <li>Modo “compras del hogar”</li>
+          </ul>
+          <div class="hr"></div>
+          <p class="muted"><b>Entrega:</b> acceso inmediato tras pago.</p>
+        </div>
+
+        <div class="card mini">
+          <h3>B2B — Licensing (Retail/Apps)</h3>
+          <p class="price">Licencia mensual/anual (rango por confirmar)</p>
+          <ul>
+            <li>SDK/módulo para integrar señales en catálogo</li>
+            <li>Personalización por metas (configurable)</li>
+            <li>Panel de métricas (uso, conversión, swaps)</li>
+          </ul>
+          <div class="hr"></div>
+          <p class="muted"><b>Entrega:</b> piloto 2–6 semanas (aprox.) + despliegue 6–12 semanas (aprox.).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section" id="cuestionario">
+      <h2>Cuestionario de validación</h2>
+      <p class="sub" style="margin:0 0 12px;">
+        Ayúdanos a mejorar el prototipo. Tu opinión define qué construir primero.
+      </p>
+
+      <div class="hr"></div>
+      <a class="btn btnPrimary" href="https://docs.google.com/forms/d/e/1FAIpQLSfFukkNd7NXqXTREVFOt7TbYQfwfrS6JlTwOy_pwbJfqgFQYQ/viewform" target="_blank" rel="noopener">
+        Ir al cuestionario
+      </a>
+      <div class="note">
+        Formulario.
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="hr"></div>
+      <p>
+        © Etiqueta Clara AI (prototipo académico). Recomendación: usar “puerta falsa” (landing page) para validar respuesta del mercado
+        antes de construir el producto completo.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const vb = document.querySelector('.videoBox');
+    if(vb){
+      let t=0;
+      setInterval(()=>{
+        t+=1;
+        vb.style.setProperty('--x', (30 + 20*Math.sin(t/7))+'%');
+        vb.style.setProperty('--y', (45 + 15*Math.cos(t/9))+'%');
+      }, 140);
+    }
+  </script>
+</body>
+</html>
